@@ -475,7 +475,7 @@ namespace EpaycoSdk
             PARAMETER = body.getBodyCashCreate(_auxiliars.ConvertToBase64(IV), _TEST, _PUBLIC_KEY, _PRIVATE_KEY,
                 invoice, description, value, tax, tax_base, currency, type_person, doc_type, doc_number, name,
                 last_name, email, cell_phone, end_date, url_response, url_confirmation, method_confirmation);
-            Console.WriteLine($"-----------------------------body\n{PARAMETER}");
+            // Console.WriteLine($"-----------------------------body\n{PARAMETER}");
 
             string content = _restRequest.Execute(
                 ENDPOINT,

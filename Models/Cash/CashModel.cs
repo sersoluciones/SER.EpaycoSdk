@@ -16,9 +16,9 @@ namespace EpaycoSdk.Models.Cash
         public int ref_payco { get; set; }
         public string factura { get; set; }
         public string descripcion { get; set; }
-        public int valor { get; set; }
-        public int iva { get; set; }
-        public int baseiva { get; set; }
+        //public int valor { get; set; }
+        //public int iva { get; set; }
+        //public int baseiva { get; set; }
         public string moneda { get; set; }
         public string banco { get; set; }
         public string estado { get; set; }
@@ -38,7 +38,7 @@ namespace EpaycoSdk.Models.Cash
         public string ciudad { get; set; }
         public string direccion { get; set; }
         public string ind_pais { get; set; }
-        public int pin { get; set; }
+        public string pin { get; set; }
         public int codigoproyecto { get; set; }
         public string fechaexpiracion { get; set; }
         public string fechapago { get; set; }
