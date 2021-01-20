@@ -21,7 +21,7 @@ namespace EpaycoSdk.Models.Bank
         public string banco { get; set; }
         public string estado { get; set; }
         public string respuesta { get; set; }
-        public int autorizacion { get; set; }
+        public string autorizacion { get; set; }
         public string recibo { get; set; }
         public string fecha { get; set; }
         public string franquicia { get; set; }
@@ -37,7 +37,7 @@ namespace EpaycoSdk.Models.Bank
         public string direccion { get; set; }
         public string ind_pais { get; set; }
         public int transactionId { get; set; }
-        public string ticketId { get; set; }
+        //public int ticketId { get; set; }
     }
     
     public class TransactionResponse
