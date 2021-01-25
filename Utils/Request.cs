@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using EpaycoSdk.Models;
@@ -6,6 +7,7 @@ using EpaycoSdk.Models.Auth;
 
 using Newtonsoft.Json;
 using RestSharp;
+using RestSharp.Serializers.SystemTextJson;
 using SER.EpaycoSdk.Utils;
 
 namespace EpaycoSdk.Utils
@@ -77,6 +79,8 @@ namespace EpaycoSdk.Utils
             request.AddHeader("lang", ".NET");
             request.AddHeader("authorization", auth);
             // request.RequestFormat = DataFormat.Json;
+            request.UseSystemTextJson();
+
             var response = client.Get<dynamic>(request);
             return response.Content;
         }
@@ -94,6 +98,7 @@ namespace EpaycoSdk.Utils
             request.AddHeader("authorization", auth);
             request.RequestFormat = DataFormat.Json;
             request.AddParameter("application/json", PARAMETER, ParameterType.RequestBody);
+            request.UseSystemTextJson();
 
             var response = client.Post<dynamic>(request);
             return response.Content;
@@ -125,11 +130,14 @@ namespace EpaycoSdk.Utils
             request.AddHeader("type", "sdk-jwt");
             request.RequestFormat = DataFormat.Json;
             request.AddParameter("application/json", PARAMETER, ParameterType.RequestBody);
+            request.UseSystemTextJson();
+
             var response = client.Post<dynamic>(request);
             AuthModel auth = JsonConvert.DeserializeObject<AuthModel>(response.Content);
             return auth;
         }
 
+      
         #endregion
     }
 }

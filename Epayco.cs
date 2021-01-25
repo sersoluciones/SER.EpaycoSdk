@@ -9,6 +9,8 @@ using EpaycoSdk.Models.Plans;
 using EpaycoSdk.Models.Subscriptions;
 using EpaycoSdk.Utils;
 using Newtonsoft.Json.Linq;
+using SER.EpaycoSdk.Models.RequestModels;
+using static System.Text.Json.JsonElement;
 
 namespace EpaycoSdk
 {
@@ -44,9 +46,9 @@ namespace EpaycoSdk
         /*
          * METODOS RELACIONADOS CON EL CUSTOMER
          */
-        public TokenModel CreateToken(string cardNumber, string expYear, string expMonth, string cvc)
+        public TokenModel CreateToken(CreateToken model)
         {
-            PARAMETER = body.getBodyCreateToken(cardNumber, expYear, expMonth, cvc);
+            PARAMETER = body.ObjectToString(model);
             ENDPOINT = Constants.url_create_token;
             string content = _request.Execute(
                 ENDPOINT,
@@ -54,8 +56,7 @@ namespace EpaycoSdk
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
             //Console.WriteLine($"----------------------------token {content} --------------------------------");
-            TokenModel token = JsonSerializer.Deserialize<TokenModel>(content);
-            return token;
+            return JsonSerializer.Deserialize<TokenModel>(content);
         }
 
         public AddTokenModel AddNewToken(string customerId, string tokenId)
@@ -72,17 +73,9 @@ namespace EpaycoSdk
             return token;
         }
 
-        public CustomerCreateModel CustomerCreate(string token_card,
-            string name,
-            string last_name,
-            string email,
-            bool isDefault,
-            string city = "",
-            string address = "",
-            string phone = "",
-            string cell_phone = "")
+        public CustomerCreateModel CustomerCreate(CreateCustomer model)
         {
-            PARAMETER = body.getBodyCreateCustomer(token_card, name, last_name, email, isDefault, city, address, phone, cell_phone);
+            PARAMETER = body.ObjectToString(model);
             Console.WriteLine($"----------------------------PARAMETER\n{PARAMETER}----------------");
             ENDPOINT = Constants.url_create_customer;
             string content = _request.Execute(
@@ -90,13 +83,12 @@ namespace EpaycoSdk
                 "POST",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
-            CustomerCreateModel customer = JsonSerializer.Deserialize<CustomerCreateModel>(content);
-            return customer;
+            return JsonSerializer.Deserialize<CustomerCreateModel>(content);
         }
 
-        public CustomerFindModel FindCustomer(string id_customer)
+        public CustomerFindModel FindCustomer(string customerId)
         {
-            ENDPOINT = body.getQueryFindCustomer(_PUBLIC_KEY, id_customer);
+            ENDPOINT = body.getQueryFindCustomer(_PUBLIC_KEY, customerId);
             string content = _request.Execute(
                 ENDPOINT,
                 "GET",
@@ -301,56 +293,32 @@ namespace EpaycoSdk
         /*
          * BANK CREATE
          */
-        public PseModel BankCreate(
-            string bank,
-            string invoice,
-            string description,
-            string value,
-            string tax,
-            string tax_base,
-            string currency,
-            string type_person,
-            string doc_type,
-            string doc_number,
-            string name,
-            string last_name,
-            string email,
-            string country,
-            string cell_phone,
-            string url_response,
-            string url_confirmation,
-            string method_confirmation,
-            string extra1 = "",
-            string extra2 = "",
-            string extra3 = "",
-            string extra4 = "",
-            string extra5 = "",
-            string extra6 = "",
-            string extra7 = "")
+        public JsonElement BankCreate(CreatePaymentPSE model)
         {
             //Console.WriteLine($"_PUBLIC_KEY {_PUBLIC_KEY} _PRIVATE_KEY {_PRIVATE_KEY}");
             ENDPOINT = Constants.url_pagos_debitos;
-            PARAMETER = body.getBodyBankCreate(_auxiliars.ConvertToBase64(IV), _TEST, _PUBLIC_KEY, _PRIVATE_KEY, bank, invoice, description, value, tax,
-                tax_base, currency, type_person, doc_type, doc_number, name, last_name, email, country,
-                cell_phone, url_response, url_confirmation, method_confirmation, extra1, extra2, extra3,
-                extra4, extra5, extra6, extra7);
+            model.ToEncrypt(_auxiliars.ConvertToBase64(IV), _TEST, _PUBLIC_KEY, _PRIVATE_KEY);
+            PARAMETER = body.ObjectToString(model);
             //Console.WriteLine($"ENDPOINT {ENDPOINT}");
-            Console.WriteLine($"PARAMETER {PARAMETER}");
-            string content = _restRequest.Execute(
+            //Console.WriteLine($"PARAMETER {PARAMETER}");
+            string response = _restRequest.Execute(
                 ENDPOINT,
                 "POST",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
+            // Console.WriteLine($"-----------------------------response\n{response}");
+            return ToJsonDocument(response);
             //Console.WriteLine($"content {content}");
-            try
-            {
-                return JsonSerializer.Deserialize<PseModel>(content);
-            }
-            catch (Exception)
-            {
-                var json = JObject.Parse(content);
-                throw new EpaycoException(json["text_response"].ToString(), json["title_response"].ToString());
-            }
+            //try
+            //{
+            //    return JsonSerializer.Deserialize<PseModel>(response);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine($"----------------------------ERROR\n{e.ToString()}----------------");
+            //    var json = JObject.Parse(response);
+            //    throw new EpaycoException(json["text_response"].ToString(), json["title_response"].ToString());
+            //}
         }
 
         public PseModel BankCreateSplit(
@@ -402,28 +370,30 @@ namespace EpaycoSdk
             return pse;
         }
 
-        public TransactionModel GetTransaction(string transactionId)
+        public JsonElement GetTransaction(string transactionId)
         {
             ENDPOINT = body.getQueryGetTransaction(_PUBLIC_KEY, transactionId);
-            string content = _request.Execute(
+            string response = _request.Execute(
                 ENDPOINT,
                 "GET",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
-            TransactionModel transaction = new TransactionModel();
-            TransactionResponse response = JsonSerializer.Deserialize<TransactionResponse>(content);
-            if (response.success)
-            {
-                transaction = JsonSerializer.Deserialize<TransactionModel>(content);
-            }
-            else
-            {
-                transaction.success = response.success;
-                transaction.title_response = response.title_response;
-                transaction.text_response = response.text_response;
-                transaction.last_action = response.last_action;
-            }
-            return transaction;
+
+            return ToJsonDocument(response);
+            //TransactionModel transaction = new TransactionModel();
+            //TransactionResponse response = JsonSerializer.Deserialize<TransactionResponse>(content);
+            //if (response.success)
+            //{
+            //    transaction = JsonSerializer.Deserialize<TransactionModel>(content);
+            //}
+            //else
+            //{
+            //    transaction.success = response.success;
+            //    transaction.title_response = response.title_response;
+            //    transaction.text_response = response.text_response;
+            //    transaction.last_action = response.last_action;
+            //}
+            //return transaction;
         }
 
         public BanksModel GetBanks()
@@ -453,45 +423,33 @@ namespace EpaycoSdk
         /*
          * CASH
          */
-        public CashModel CashCreate(string type, string invoice,
-            string description,
-            string value,
-            string tax,
-            string tax_base,
-            string currency,
-            string type_person,
-            string doc_type,
-            string doc_number,
-            string name,
-            string last_name,
-            string email,
-            string cell_phone,
-            string end_date,
-            string url_response,
-            string url_confirmation,
-            string method_confirmation)
+        public JsonElement CashCreate(CreatePaymentCash model)
         {
-            ENDPOINT = body.getQueryCash(type);
-            PARAMETER = body.getBodyCashCreate(_auxiliars.ConvertToBase64(IV), _TEST, _PUBLIC_KEY, _PRIVATE_KEY,
-                invoice, description, value, tax, tax_base, currency, type_person, doc_type, doc_number, name,
-                last_name, email, cell_phone, end_date, url_response, url_confirmation, method_confirmation);
+            ENDPOINT = body.getQueryCash(model.Type);
+            model.I = _auxiliars.ConvertToBase64(IV);
+            model.Test = _TEST.ToString();
+            model.PublicKey = _PUBLIC_KEY;
+            model.I = _auxiliars.ConvertToBase64(IV);
+            PARAMETER = body.ObjectToString(model);
             // Console.WriteLine($"-----------------------------body\n{PARAMETER}");
 
-            string content = _restRequest.Execute(
+            string response = _restRequest.Execute(
                 ENDPOINT,
                 "POST",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
-            //Console.WriteLine($"-----------------------------content\n{content}");
-            try
-            {
-                return JsonSerializer.Deserialize<CashModel>(content);
-            }
-            catch (Exception)
-            {
-                var json = JObject.Parse(content);
-                throw new EpaycoException(json["text_response"].ToString(), json["title_response"].ToString());
-            }
+            // Console.WriteLine($"-----------------------------response\n{response}");
+            return ToJsonDocument(response);
+            //try
+            //{
+            //    return JsonSerializer.Deserialize<CashModel>(response);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine($"----------------------------ERROR\n{e.ToString()}----------------");
+            //    var json = JObject.Parse(response);
+            //    throw new EpaycoException(json["text_response"].ToString(), json["title_response"].ToString());
+            //}
         }
 
         public CashTransactionModel GetCashTransaction(string ref_payco)
@@ -508,58 +466,28 @@ namespace EpaycoSdk
         /*
          * PAYMENT
          */
-        public ChargeModel ChargeCreate(
-            string token_card,
-            string customer_id,
-            string doc_type,
-            string doc_number,
-            string name,
-            string last_name,
-            string email,
-            string bill,
-            string description,
-            string value,
-            string tax,
-            string tax_base,
-            string currency,
-            string dues,
-            string address,
-            string cell_phone,
-            string ip = "",
-            string phone = "",
-            string url_response = "",
-            string url_confirmation = ""
-            //string method_confirmation = "",
-            //string extra1 = "",
-            //string extra2 = "",
-            //string extra3 = "",
-            //string extra4 = "",
-            //string extra5 = "",
-            //string extra6 = "",
-            //string extra7 = ""
-            )
+        public JsonElement ChargeCreate(CreatePaymentTC model)
         {
             ENDPOINT = Constants.url_charge;
-            PARAMETER = body.getBodyChargeCreate(token_card, customer_id, doc_type, doc_number, name, last_name,
-                email, bill, description, value, tax, tax_base, currency, dues, address, phone, cell_phone,
-                url_response,
-                url_confirmation, ip);
-            Console.WriteLine($"----------------------------PARAMETER\n{PARAMETER}----------------");
-            string content = _request.Execute(
+            PARAMETER = body.ObjectToString(model);
+            // Console.WriteLine($"----------------------------PARAMETER\n{PARAMETER}----------------");
+            string response = _request.Execute(
                 ENDPOINT,
                 "POST",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
-            //Console.WriteLine($"----------------------------content\n{content}----------------");
-            try
-            {
-                return JsonSerializer.Deserialize<ChargeModel>(content);
-            }
-            catch (Exception)
-            {
-                var json = JObject.Parse(content);
-                throw new EpaycoException(json["message"].ToString());
-            }
+            // Console.WriteLine($"----------------------------response\n{response}----------------");
+            return ToJsonDocument(response);
+            //try
+            //{
+            //    return JsonSerializer.Deserialize<ChargeModel>(response);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine($"----------------------------ERROR\n{e.ToString()}----------------");
+            //    var json = JObject.Parse(response);
+            //    throw new EpaycoException(json["message"].ToString());
+            //}
 
         }
 
@@ -573,6 +501,16 @@ namespace EpaycoSdk
             ChargeTransactionModel transaction = JsonSerializer.Deserialize<ChargeTransactionModel>(content);
             return transaction;
         }
+
+        public static JsonElement ToJsonDocument(string response)
+        {
+            var documentOptions = new JsonDocumentOptions
+            {
+                CommentHandling = JsonCommentHandling.Skip
+            };
+            return JsonDocument.Parse(response, documentOptions).RootElement;
+        }
+
         #endregion
     }
 

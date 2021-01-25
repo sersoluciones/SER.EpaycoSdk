@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.Json;
 using EpaycoSdk.Models.Bank;
+using RestSharp;
 
 namespace EpaycoSdk.Utils
 {
@@ -18,6 +20,22 @@ namespace EpaycoSdk.Utils
         #endregion
 
         #region Methods
+
+        public string ObjectToString(dynamic model)
+        {
+            var jsonString = JsonSerializer.Serialize(model);
+           
+            // Console.WriteLine($"-----------------------------REQUEST\n{jsonString}\n");
+
+            //foreach (JsonProperty property in document.RootElement.EnumerateObject())
+            //{
+            //    request.AddParameter(property.Name, property.Value, ParameterType.QueryString);
+            //}
+            //var list = string.Join(", ", request.Parameters);
+            //Console.WriteLine($"Params Query {list}");
+
+            return jsonString;
+        }
 
         public string getBodyAuthBearer(string publicKey, string privateKey)
         {
@@ -406,7 +424,7 @@ namespace EpaycoSdk.Utils
          */
         public string getQueryCash(string type)
         {
-            var endpoint = "";
+            string endpoint;
             switch (type)
             {
                 case "efecty":
