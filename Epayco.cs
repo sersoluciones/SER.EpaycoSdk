@@ -8,6 +8,7 @@ using EpaycoSdk.Models.Charge;
 using EpaycoSdk.Models.Plans;
 using EpaycoSdk.Models.Subscriptions;
 using EpaycoSdk.Utils;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using SER.EpaycoSdk.Models.RequestModels;
 using static System.Text.Json.JsonElement;
@@ -20,14 +21,16 @@ namespace EpaycoSdk
         Request _request = new Request();
         RequestRest _restRequest = new RequestRest();
         Auxiliars _auxiliars = new Auxiliars();
+        private readonly ILogger _logger;
         #region Constructor
-        public Epayco(string publicKey, string privateKey, string lang, bool test)
+        public Epayco(string publicKey, string privateKey, string lang, bool test, ILogger<Epayco> logger)
         {
             _PUBLIC_KEY = publicKey;
             _PRIVATE_KEY = privateKey;
             _LANG = lang;
             _TEST = test;
             _request.AuthService(publicKey, privateKey);
+            _logger = logger;
         }
         #endregion
 
@@ -55,7 +58,7 @@ namespace EpaycoSdk
                 "POST",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
-            //Console.WriteLine($"----------------------------token {content} --------------------------------");
+            // _logger.LogInformation($"----------------------------token {content} --------------------------------");
             return JsonSerializer.Deserialize<TokenModel>(content);
         }
 
@@ -68,7 +71,7 @@ namespace EpaycoSdk
                 "POST",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
-            Console.WriteLine($"----------------------------content add new token to customer {content} --------------------------------");
+            _logger.LogInformation($"----------------------------content add new token to customer {content} --------------------------------");
             AddTokenModel token = JsonSerializer.Deserialize<AddTokenModel>(content);
             return token;
         }
@@ -76,7 +79,7 @@ namespace EpaycoSdk
         public CustomerCreateModel CustomerCreate(CreateCustomer model)
         {
             PARAMETER = body.ObjectToString(model);
-            Console.WriteLine($"----------------------------PARAMETER\n{PARAMETER}----------------");
+            _logger.LogInformation($"----------------------------PARAMETER\n{PARAMETER}----------------");
             ENDPOINT = Constants.url_create_customer;
             string content = _request.Execute(
                 ENDPOINT,
@@ -295,27 +298,27 @@ namespace EpaycoSdk
          */
         public JsonElement BankCreate(CreatePaymentPSE model)
         {
-            //Console.WriteLine($"_PUBLIC_KEY {_PUBLIC_KEY} _PRIVATE_KEY {_PRIVATE_KEY}");
+            //_logger.LogInformation($"_PUBLIC_KEY {_PUBLIC_KEY} _PRIVATE_KEY {_PRIVATE_KEY}");
             ENDPOINT = Constants.url_pagos_debitos;
             model.ToEncrypt(_auxiliars.ConvertToBase64(IV), _TEST, _PUBLIC_KEY, _PRIVATE_KEY);
             PARAMETER = body.ObjectToString(model);
-            //Console.WriteLine($"ENDPOINT {ENDPOINT}");
-            //Console.WriteLine($"PARAMETER {PARAMETER}");
+            //_logger.LogInformation($"ENDPOINT {ENDPOINT}");
+            //_logger.LogInformation($"PARAMETER {PARAMETER}");
             string response = _restRequest.Execute(
                 ENDPOINT,
                 "POST",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
-            // Console.WriteLine($"-----------------------------response\n{response}");
+            _logger.LogInformation($"-----------------------------response\n{response}");
             return ToJsonDocument(response);
-            //Console.WriteLine($"content {content}");
+            //_logger.LogInformation($"content {content}");
             //try
             //{
             //    return JsonSerializer.Deserialize<PseModel>(response);
             //}
             //catch (Exception e)
             //{
-            //    Console.WriteLine($"----------------------------ERROR\n{e.ToString()}----------------");
+            //    _logger.LogInformation($"----------------------------ERROR\n{e.ToString()}----------------");
             //    var json = JObject.Parse(response);
             //    throw new EpaycoException(json["text_response"].ToString(), json["title_response"].ToString());
             //}
@@ -431,14 +434,14 @@ namespace EpaycoSdk
             model.PublicKey = _PUBLIC_KEY;
             model.I = _auxiliars.ConvertToBase64(IV);
             PARAMETER = body.ObjectToString(model);
-            // Console.WriteLine($"-----------------------------body\n{PARAMETER}");
+            // _logger.LogInformation($"-----------------------------body\n{PARAMETER}");
 
             string response = _restRequest.Execute(
                 ENDPOINT,
                 "POST",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
-            // Console.WriteLine($"-----------------------------response\n{response}");
+            _logger.LogInformation($"-----------------------------response\n{response}");
             return ToJsonDocument(response);
             //try
             //{
@@ -446,7 +449,7 @@ namespace EpaycoSdk
             //}
             //catch (Exception e)
             //{
-            //    Console.WriteLine($"----------------------------ERROR\n{e.ToString()}----------------");
+            //    _logger.LogInformation($"----------------------------ERROR\n{e.ToString()}----------------");
             //    var json = JObject.Parse(response);
             //    throw new EpaycoException(json["text_response"].ToString(), json["title_response"].ToString());
             //}
@@ -470,13 +473,13 @@ namespace EpaycoSdk
         {
             ENDPOINT = Constants.url_charge;
             PARAMETER = body.ObjectToString(model);
-            // Console.WriteLine($"----------------------------PARAMETER\n{PARAMETER}----------------");
+            // _logger.LogInformation($"----------------------------PARAMETER\n{PARAMETER}----------------");
             string response = _request.Execute(
                 ENDPOINT,
                 "POST",
                 _auxiliars.ConvertToBase64(_PUBLIC_KEY),
                 PARAMETER);
-            // Console.WriteLine($"----------------------------response\n{response}----------------");
+            _logger.LogInformation($"----------------------------response\n{response}----------------");
             return ToJsonDocument(response);
             //try
             //{
@@ -484,7 +487,7 @@ namespace EpaycoSdk
             //}
             //catch (Exception e)
             //{
-            //    Console.WriteLine($"----------------------------ERROR\n{e.ToString()}----------------");
+            //    _logger.LogInformation($"----------------------------ERROR\n{e.ToString()}----------------");
             //    var json = JObject.Parse(response);
             //    throw new EpaycoException(json["message"].ToString());
             //}

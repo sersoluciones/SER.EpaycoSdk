@@ -31,6 +31,7 @@ namespace EpaycoSdk.Utils
         private string TYPE = string.Empty;
         private string PUBLIC_KEY_BASE64 = string.Empty;
         private string PARAMETER = string.Empty;
+        private string INITIAL_PARAMETER = string.Empty;
         private string RESPONSE = string.Empty;
         private string PRIVATE_KEY = string.Empty;
         private string PUBLIC_KEY = string.Empty;
@@ -100,7 +101,11 @@ namespace EpaycoSdk.Utils
             request.AddParameter("application/json", PARAMETER, ParameterType.RequestBody);
             request.UseSystemTextJson();
 
+            //Console.WriteLine($"-------------------------- END_POINT {END_POINT}---------------------------");
+            //Console.WriteLine($"-------------------------- TYPE {TYPE}---------------------------");
+            //Console.WriteLine($"-------------------------- PARAMETER {PARAMETER}---------------------------");
             var response = client.Post<dynamic>(request);
+            //Console.WriteLine($"-------------------------- response.Content {response.Content}---------------------------");
             return response.Content;
 
         }
@@ -123,6 +128,7 @@ namespace EpaycoSdk.Utils
 
         private AuthModel GetBearerToken()
         {
+            INITIAL_PARAMETER = PARAMETER;
             PARAMETER = body.getBodyAuthBearer(PUBLIC_KEY, PRIVATE_KEY);
             var request = new RestRequest("/v1/auth/login");
             request.AddHeader("content-type", "application/json");
@@ -134,6 +140,7 @@ namespace EpaycoSdk.Utils
 
             var response = client.Post<dynamic>(request);
             AuthModel auth = JsonConvert.DeserializeObject<AuthModel>(response.Content);
+            PARAMETER = INITIAL_PARAMETER;
             return auth;
         }
 
