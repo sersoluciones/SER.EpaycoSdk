@@ -36,5 +36,18 @@ namespace SER.EpaycoSdk.NewApi.Models.Request
         [JsonPropertyName("currency")]
         public string Currency { get; set; } = "COP";
 
+
+        [JsonPropertyName("_cardNumber")]
+        public string CardNumber { get; set; }
+
+        [JsonPropertyName("_cardExpYear")]
+        public string CardExpYear { get; set; }
+
+        [JsonPropertyName("_cardExpMonth")]
+        public string CardExpMonth { get; set; }
+
+        [JsonPropertyName("_cardCvc")]
+        public string CardCvc { get; set; }
+
     }
 }

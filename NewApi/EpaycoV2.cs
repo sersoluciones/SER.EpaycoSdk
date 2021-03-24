@@ -100,7 +100,7 @@ namespace SER.EpaycoSdk.NewApi
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<BaseResponse<TCRes>> TCTransaction<T>(T model) where T : class
+        public async Task<BaseResponse<TCRes>> CreateTCTransaction(TCTransaction model)
         {
             return await _consume.ExecuteAsync<BaseResponse<TCRes>>(_consume.MakePostRequest(endPoint: Constantes.TC_TRANSACTION_ENDPOINT, model: model));
         }
@@ -121,9 +121,9 @@ namespace SER.EpaycoSdk.NewApi
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<BaseResponse<TokenCardRes>> CreateTokenCustomer(CustomerTransaction model)
+        public async Task<BaseResponse<CustomerRes>> CreateTokenCustomer(CustomerTransaction model)
         {
-            return await _consume.ExecuteAsync<BaseResponse<TokenCardRes>>(_consume.MakePostRequest(endPoint: Constantes.TOKEN_CUSTOMER_ENDPOINT, model: model));
+            return await _consume.ExecuteAsync<BaseResponse<CustomerRes>>(_consume.MakePostRequest(endPoint: Constantes.TOKEN_CUSTOMER_ENDPOINT, model: model));
         }
 
         /// <summary>

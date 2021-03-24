@@ -28,7 +28,7 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         public string Type { get; set; }
 
         [JsonPropertyName("data")]
-        public Data Data { get; set; }
+        public TokenCardData Data { get; set; }
 
         [JsonPropertyName("card")]
         public Card Card { get; set; }
@@ -49,7 +49,7 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         public string Name { get; set; }
     }
 
-    public class Data
+    public class TokenCardData
     {
         [JsonPropertyName("status")]
         public string Status { get; set; }
