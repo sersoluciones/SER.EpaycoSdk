@@ -13,6 +13,7 @@ namespace SER.EpaycoSdk.NewApi
         public const string STANDARD_TRANSACTION_ENDPOINT = "payment/process/standard";
         public const string PSE_TRANSACTION_ENDPOINT = "payment/process/pse";
         public const string CONFIRM_PSE_TRANSACTION_ENDPOINT = "payment/pse/transaction";
+        public const string CONFIRM_STANDARD_TRANSACTION_ENDPOINT = "payment/confirm/standard";
         public const string BANKS_ENDPOINT = "payment/pse/banks";
         public const string TC_TRANSACTION_ENDPOINT = "payment/process";
         public const string TOKEN_CARD_ENDPOINT = "token/card";

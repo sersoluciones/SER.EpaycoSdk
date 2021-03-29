@@ -9,11 +9,17 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
 {
     public class StandardRes
     {
+        [JsonPropertyName("totalErrors")]
+        public int TotalErrores { get; set; }
+
+        [JsonPropertyName("errors")]
+        public object Errores { get; set; }
+
         [JsonPropertyName("error")]
         public BaseError Error { get; set; }
 
         [JsonPropertyName("refEpayco")]
-        public long RefEpayco { get; set; }
+        public string RefEpayco { get; set; }
 
         [JsonPropertyName("invoice")]
         public string Invoice { get; set; }
@@ -52,7 +58,7 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         public string Receipt { get; set; }
 
         [JsonPropertyName("dateTime")]
-        public DateTime DateTime { get; set; }
+        public string DateTime { get; set; }
 
         [JsonPropertyName("channel")]
         public string Channel { get; set; }

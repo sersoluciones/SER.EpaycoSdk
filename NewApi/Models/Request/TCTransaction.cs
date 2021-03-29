@@ -9,16 +9,17 @@ namespace SER.EpaycoSdk.NewApi.Models.Request
 {
     public class TCTransaction : BaseTransaction
     {
-        public TCTransaction(string customerId, string cardTokenId, string description, string invoice, 
+        public TCTransaction(string customerId, string cardTokenId, string dues, string description, string invoice, 
             string docType, string docNumber, string name, string lastName, string email,
             string cellPhone, string value, decimal tax, decimal taxBase, int typePerson, 
-            string ip, string urlResponse, string urlConfirmation)
-            : base(docType, docNumber, name, lastName, email, cellPhone, value, tax, taxBase, typePerson, ip, urlResponse, urlConfirmation)
+            string ip)
+            : base(docType, docNumber, name, lastName, email, cellPhone, value, tax, taxBase, typePerson, ip, null, null)
         {
             CustomerId = customerId;
             CardTokenId = cardTokenId;
             Description = description;
             Invoice = invoice;
+            Dues = dues;
         }
 
         [JsonPropertyName("customerId")]
@@ -37,17 +38,19 @@ namespace SER.EpaycoSdk.NewApi.Models.Request
         public string Currency { get; set; } = "COP";
 
 
-        [JsonPropertyName("_cardNumber")]
+        [JsonPropertyName("cardNumber")]
         public string CardNumber { get; set; }
 
-        [JsonPropertyName("_cardExpYear")]
+        [JsonPropertyName("cardExpYear")]
         public string CardExpYear { get; set; }
 
-        [JsonPropertyName("_cardExpMonth")]
+        [JsonPropertyName("cardExpMonth")]
         public string CardExpMonth { get; set; }
 
-        [JsonPropertyName("_cardCvc")]
+        [JsonPropertyName("cardCvc")]
         public string CardCvc { get; set; }
 
+        [JsonPropertyName("dues")]
+        public string Dues { get; set; }
     }
 }

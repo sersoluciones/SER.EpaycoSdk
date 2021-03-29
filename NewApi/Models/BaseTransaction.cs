@@ -88,10 +88,8 @@ namespace SER.EpaycoSdk.NewApi.Models
 
 
         [JsonPropertyName("ip")]
-        [Required]
         public string Ip { get; set; }
 
-        [Required]
         [JsonPropertyName("urlResponse")]
         public string UrlResponse { get; set; }
         [JsonPropertyName("urlConfirmation")]

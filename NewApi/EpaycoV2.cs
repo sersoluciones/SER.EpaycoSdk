@@ -60,6 +60,17 @@ namespace SER.EpaycoSdk.NewApi
         }
 
         /// <summary>
+        /// Confirmar Transaccion de daviplata
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<BaseResponse<StandardRes>> ConfirmStandardTransaction(ConfirmStandardTC model)
+        {
+            return await _consume.ExecuteAsync<BaseResponse<StandardRes>>(_consume.MakePostRequest(endPoint: Constantes.CONFIRM_STANDARD_TRANSACTION_ENDPOINT,
+                model: model));
+        }
+
+        /// <summary>
         /// Transaccion para PSE
         /// </summary>
         /// <param name="model"></param>

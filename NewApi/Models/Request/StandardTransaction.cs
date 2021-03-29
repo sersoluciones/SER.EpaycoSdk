@@ -11,20 +11,17 @@ namespace SER.EpaycoSdk.NewApi.Models.Request
 {
     public class StandardTransaction : BaseTransaction
     {
-        public StandardTransaction(StandarChannel channelEnum, string country, string department, string city,
-            string description, string invoice, string currency, bool openPayment,
-            string docType, string docNumber, string name, string lastName, string email, string cellPhone, string value, decimal tax, decimal taxBase,
-            int typePerson, string ip, string urlResponse, string urlConfirmation)
+        public StandardTransaction(StandarChannel channelEnum, string department, string city,
+            string description, string invoice, string docType, string docNumber, string name, string lastName, string email,
+            string cellPhone, string value, decimal tax, decimal taxBase, int typePerson, string ip, string urlResponse, string urlConfirmation)
              : base(docType, docNumber, name, lastName, email, cellPhone, value, tax, taxBase, typePerson, ip, urlResponse, urlConfirmation)
         {
             ChannelEnum = channelEnum;
-            Country = country;
+            Country = "CO";
             Department = department;
             City = city;
             Description = description;
             Invoice = invoice;
-            Currency = currency;
-            OpenPayment = openPayment;
         }
 
         [JsonPropertyName("channel")]
