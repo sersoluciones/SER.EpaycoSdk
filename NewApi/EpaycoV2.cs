@@ -20,11 +20,11 @@ namespace SER.EpaycoSdk.NewApi
         private Consume _consume;
         #endregion
 
-        public EpaycoV2(ILogger<EpaycoV2> logger, string auth)
+        public EpaycoV2(ILoggerFactory logger, string auth)
         {
             _auth = auth;
-            _logger = logger;
-            _consume = new Consume(logger, _auth);
+            _logger = logger.CreateLogger("Epayco");
+            _consume = new Consume(_logger, _auth);
         }
 
         #region Access token       
