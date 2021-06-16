@@ -35,6 +35,16 @@ namespace SER.EpaycoSdk.NewApi
         #endregion
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<BaseResponse<DetailTransactionRes>> DetailTransaction(DetailTransaction model)
+        {
+            return await _consume.ExecuteAsync<BaseResponse<DetailTransactionRes>>(_consume.MakePostRequest(endPoint: Constantes.DETAIL_TRANSACTION_ENDPOINT, model: model));
+        }
+
+        /// <summary>
         /// city	String	Ciudad.
         /// country	String	País
         /// department String	Departamento
