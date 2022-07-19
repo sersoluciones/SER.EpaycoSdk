@@ -80,7 +80,7 @@ namespace EpaycoSdk.Utils
             request.AddHeader("lang", ".NET");
             request.AddHeader("authorization", auth);
             // request.RequestFormat = DataFormat.Json;
-            request.UseSystemTextJson();
+            //request.UseSystemTextJson();
 
             var response = client.Get<dynamic>(request);
             return response.Content;
@@ -99,7 +99,7 @@ namespace EpaycoSdk.Utils
             request.AddHeader("authorization", auth);
             request.RequestFormat = DataFormat.Json;
             request.AddParameter("application/json", PARAMETER, ParameterType.RequestBody);
-            request.UseSystemTextJson();
+            //request.UseSystemTextJson();
 
             //Console.WriteLine($"-------------------------- END_POINT {END_POINT}---------------------------");
             //Console.WriteLine($"-------------------------- TYPE {TYPE}---------------------------");
@@ -136,7 +136,7 @@ namespace EpaycoSdk.Utils
             request.AddHeader("type", "sdk-jwt");
             request.RequestFormat = DataFormat.Json;
             request.AddParameter("application/json", PARAMETER, ParameterType.RequestBody);
-            request.UseSystemTextJson();
+            //request.UseSystemTextJson();
 
             var response = client.Post<dynamic>(request);
             AuthModel auth = JsonConvert.DeserializeObject<AuthModel>(response.Content);
