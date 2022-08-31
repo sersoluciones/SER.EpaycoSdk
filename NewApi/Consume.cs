@@ -34,7 +34,7 @@ namespace SER.EpaycoSdk.NewApi
 
         public RestRequest MakeGetRequest(string endPoint = "", dynamic model = null)
         {
-            var request = new RestRequest(endPoint, Method.Get)
+            var request = new RestRequest(endPoint, Method.GET)
             {
                 RequestFormat = DataFormat.Json
             };
@@ -59,7 +59,7 @@ namespace SER.EpaycoSdk.NewApi
         public RestRequest MakePostRequest(string endPoint = "", dynamic model = null)
         {
             _logger.LogInformation($"------------------ ENDPOINT: {endPoint}");
-            var request = new RestRequest(endPoint, Method.Post)
+            var request = new RestRequest(endPoint, Method.POST)
             {
                 RequestFormat = DataFormat.Json
             };

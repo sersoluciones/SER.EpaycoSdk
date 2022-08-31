@@ -81,6 +81,27 @@ namespace SER.EpaycoSdk.NewApi
         }
 
         /// <summary>
+        /// crea una transaccion con Daviplata
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<BaseResponse<DaviplataRes>> DaviplataTransaction(DaviplataTransaction model)
+        {
+            return await _consume.ExecuteAsync<BaseResponse<DaviplataRes>>(_consume.MakePostRequest(endPoint: Constantes.DAVIPLATA_TRANSACTION_ENDPOINT, model: model));
+        }
+
+        /// <summary>
+        /// Confirmar Transaccion de daviplata
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<BaseResponse<ConfirmDaviplataRes>> ConfirmDaviplataTransaction(ConfirmDaviplata model)
+        {
+            return await _consume.ExecuteAsync<BaseResponse<ConfirmDaviplataRes>>(_consume.MakePostRequest(endPoint: Constantes.DAVIPLATA_CONFIRM_ENDPOINT,
+                model: model));
+        }
+
+        /// <summary>
         /// Transaccion para PSE
         /// </summary>
         /// <param name="model"></param>
@@ -111,6 +132,18 @@ namespace SER.EpaycoSdk.NewApi
         public async Task<BaseResponse<List<BankRes>>> FetchBanks()
         {
             return await _consume.ExecuteAsync<BaseResponse<List<BankRes>>>(_consume.MakeGetRequest(endPoint: Constantes.BANKS_ENDPOINT));
+        }
+
+
+        ////// METODOS EN EFECTIVO ////////////
+        /// <summary>
+        /// hacer la transaccion con metodos en efectivo (Efecty, sured, etc)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<BaseResponse<StandardRes>> CashTransaction(CashTransaction model)
+        {
+            return await _consume.ExecuteAsync<BaseResponse<StandardRes>>(_consume.MakePostRequest(endPoint: Constantes.CASH_TRANSACTION_ENDPOINT, model: model));
         }
 
 

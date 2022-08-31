@@ -11,7 +11,9 @@ namespace SER.EpaycoSdk.NewApi.Models
     {
         [JsonPropertyName("success")]
         public bool Success { get; set; }
-
+        /// <summary>
+        /// could be REJECTED - SUCCESS
+        /// </summary>
         [JsonPropertyName("titleResponse")]
         public string TitleResponse { get; set; }
 

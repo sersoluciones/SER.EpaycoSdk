@@ -11,6 +11,9 @@ namespace SER.EpaycoSdk.NewApi
         //endpoints
         public const string LOGIN_ENDPOINT = "login";
         public const string STANDARD_TRANSACTION_ENDPOINT = "payment/process/standard";
+        public const string CASH_TRANSACTION_ENDPOINT = "payment/process/cash";
+        public const string DAVIPLATA_TRANSACTION_ENDPOINT = "payment/process/daviplata";
+        public const string DAVIPLATA_CONFIRM_ENDPOINT = "payment/confirm/daviplata";
         public const string DETAIL_TRANSACTION_ENDPOINT = "transaction/detail";
         public const string PSE_TRANSACTION_ENDPOINT = "payment/process/pse";
         public const string CONFIRM_PSE_TRANSACTION_ENDPOINT = "payment/pse/transaction";
