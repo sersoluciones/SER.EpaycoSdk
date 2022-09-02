@@ -141,9 +141,9 @@ namespace SER.EpaycoSdk.NewApi
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<BaseResponse<StandardRes>> CashTransaction(CashTransaction model)
+        public async Task<BaseResponse<CashRes>> CashTransaction(CashTransaction model)
         {
-            return await _consume.ExecuteAsync<BaseResponse<StandardRes>>(_consume.MakePostRequest(endPoint: Constantes.CASH_TRANSACTION_ENDPOINT, model: model));
+            return await _consume.ExecuteAsync<BaseResponse<CashRes>>(_consume.MakePostRequest(endPoint: Constantes.CASH_TRANSACTION_ENDPOINT, model: model));
         }
 
 

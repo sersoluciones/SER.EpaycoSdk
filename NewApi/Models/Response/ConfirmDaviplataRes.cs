@@ -14,7 +14,7 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
 
         /// <summary>
         /// Rechazada
-        /// Aprobada
+        /// Aprobado
         /// </summary>
         [JsonPropertyName("status")]
         public string Status { get; set; }
@@ -23,13 +23,13 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         public string Date { get; set; }
 
         [JsonPropertyName("numApproval")]
-        public object NumApproval { get; set; }
+        public string NumApproval { get; set; }
 
         [JsonPropertyName("idTransactionDaviplata")]
-        public object IdTransactionDaviplata { get; set; }
+        public string IdTransactionDaviplata { get; set; }
 
         [JsonPropertyName("idTransactionAutorization")]
-        public object IdTransactionAutorization { get; set; }
+        public string IdTransactionAutorization { get; set; }
 
         [JsonPropertyName("response")]
         public string Response { get; set; }

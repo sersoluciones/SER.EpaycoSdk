@@ -13,13 +13,19 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         public int TotalErrores { get; set; }
 
         [JsonPropertyName("errors")]
-        public object Errores { get; set; }
+        public ItemError[] Errores { get; set; }
 
         [JsonPropertyName("error")]
         public BaseError Error { get; set; }
 
-        [JsonPropertyName("refEpayco")]
-        public string RefEpayco { get; set; }
+        [JsonPropertyName("transaction")]
+        public Transaction Transaction { get; set; }
+    }
+
+    public class Transaction
+    {
+        [JsonPropertyName("refPayco")]
+        public string RefPayco { get; set; }
 
         [JsonPropertyName("invoice")]
         public string Invoice { get; set; }
@@ -28,16 +34,19 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         public string Description { get; set; }
 
         [JsonPropertyName("value")]
-        public string Value { get; set; }
+        public decimal Value { get; set; }
 
-        /// <summary>
-        /// IVA -> 19
-        /// </summary>
         [JsonPropertyName("tax")]
-        public string Tax { get; set; }
+        public decimal Tax { get; set; }
+
+        [JsonPropertyName("ico")]
+        public decimal Ico { get; set; }
 
         [JsonPropertyName("taxBase")]
-        public string TaxBase { get; set; }
+        public int TaxBase { get; set; }
+
+        [JsonPropertyName("valueNeto")]
+        public decimal ValueNeto { get; set; }
 
         [JsonPropertyName("currency")]
         public string Currency { get; set; }
@@ -45,38 +54,38 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         [JsonPropertyName("bank")]
         public string Bank { get; set; }
 
-        [JsonPropertyName("state")]
-        public string State { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
 
-        [JsonPropertyName("stateMessage")]
-        public string StateMessage { get; set; }
+        [JsonPropertyName("response")]
+        public string Response { get; set; }
 
-        [JsonPropertyName("authorizationCode")]
-        public string AuthorizationCode { get; set; }
+        [JsonPropertyName("autorization")]
+        public string Autorization { get; set; }
 
         [JsonPropertyName("receipt")]
-        public string Receipt { get; set; }
+        public long Receipt { get; set; }
 
-        [JsonPropertyName("dateTime")]
-        public string DateTime { get; set; }
+        [JsonPropertyName("date")]
+        public string Date { get; set; }
 
-        [JsonPropertyName("channel")]
-        public string Channel { get; set; }
+        [JsonPropertyName("paymentMethod")]
+        public string PaymentMethod { get; set; }
 
-        [JsonPropertyName("responseCode")]
-        public int ResponseCode { get; set; }
+        [JsonPropertyName("codResponse")]
+        public string CodResponse { get; set; }
 
         [JsonPropertyName("ip")]
         public string Ip { get; set; }
 
-        [JsonPropertyName("test")]
-        public long Test { get; set; }
+        [JsonPropertyName("testMode")]
+        public long TestMode { get; set; }
 
         [JsonPropertyName("docType")]
         public string DocType { get; set; }
 
-        [JsonPropertyName("docNumber")]
-        public string DocNumber { get; set; }
+        [JsonPropertyName("document")]
+        public string Document { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -93,10 +102,25 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         [JsonPropertyName("address")]
         public string Address { get; set; }
 
-        [JsonPropertyName("country")]
-        public string Country { get; set; }
+        [JsonPropertyName("indCountry")]
+        public object IndCountry { get; set; }
 
-        [JsonPropertyName("urlRedirect")]
-        public string UrlRedirect { get; set; }
+        [JsonPropertyName("pin")]
+        public string Pin { get; set; }
+
+        [JsonPropertyName("codeProject")]
+        public object CodeProject { get; set; }
+
+        [JsonPropertyName("paymentDate")]
+        public string PaymentDate { get; set; }
+
+        [JsonPropertyName("expirationDate")]
+        public string ExpirationDate { get; set; }
+
+        [JsonPropertyName("conversionFactor")]
+        public double ConversionFactor { get; set; }
+
+        [JsonPropertyName("valuePesos")]
+        public long ValuePesos { get; set; }
     }
 }

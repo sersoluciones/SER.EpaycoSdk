@@ -13,8 +13,8 @@ namespace SER.EpaycoSdk.NewApi.Models.Request
     {
         public CashTransaction(CashPaymentEnum paymentMethod, string description, string invoice, 
             string docType, string docNumber, string name, string lastName, string email,
-            string cellPhone, string value, decimal tax, decimal taxBase, int typePerson, string ip, string urlResponse, string urlConfirmation)
-             : base(docType, docNumber, name, lastName, email, cellPhone, value, tax, taxBase, typePerson, ip, urlResponse, urlConfirmation)
+            string cellPhone, string value, decimal tax, decimal taxBase, int typePerson, string ip, string urlConfirmation)
+             : base(docType, docNumber, name, lastName, email, cellPhone, value, tax, taxBase, typePerson, ip, "", urlConfirmation)
         {
             PaymentMethodEnum = paymentMethod;
             Description = description;
