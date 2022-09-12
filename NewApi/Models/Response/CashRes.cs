@@ -18,12 +18,7 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         [JsonPropertyName("error")]
         public BaseError Error { get; set; }
 
-        [JsonPropertyName("transaction")]
-        public Transaction Transaction { get; set; }
-    }
 
-    public class Transaction
-    {
         [JsonPropertyName("refPayco")]
         public string RefPayco { get; set; }
 
@@ -64,7 +59,7 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         public string Autorization { get; set; }
 
         [JsonPropertyName("receipt")]
-        public long Receipt { get; set; }
+        public string Receipt { get; set; }
 
         [JsonPropertyName("date")]
         public string Date { get; set; }
@@ -79,7 +74,7 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         public string Ip { get; set; }
 
         [JsonPropertyName("testMode")]
-        public long TestMode { get; set; }
+        public int TestMode { get; set; }
 
         [JsonPropertyName("docType")]
         public string DocType { get; set; }
@@ -119,8 +114,5 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
 
         [JsonPropertyName("conversionFactor")]
         public double ConversionFactor { get; set; }
-
-        [JsonPropertyName("valuePesos")]
-        public long ValuePesos { get; set; }
     }
 }

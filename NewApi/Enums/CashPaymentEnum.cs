@@ -9,11 +9,11 @@ namespace SER.EpaycoSdk.NewApi.Enums
     public enum CashPaymentEnum
     {
         /// <summary>
-        /// Efecty
+        /// Efecty - monto minimo 20000
         /// </summary>
         EF,
         /// <summary>
-        /// Gana - monto minimo 2000
+        /// Gana - monto minimo 5000
         /// </summary>
         GA,
         /// <summary>
@@ -25,7 +25,7 @@ namespace SER.EpaycoSdk.NewApi.Enums
         /// </summary>
         RS,
         /// <summary>
-        /// Sured - monto minimo 2000
+        /// Sured - monto minimo 5000
         /// </summary>
         SR
     }

@@ -11,12 +11,13 @@ namespace SER.EpaycoSdk.NewApi.Models.Request
 {
     public class ConfirmDaviplata
     {
+        [Required]
         [JsonPropertyName("refPayco")]
         public string RefPayco { get; set; }
-
+        [Required]
         [JsonPropertyName("idSessionToken")]
         public string IdSessionToken { get; set; }
-
+        [Required]
         [JsonPropertyName("otp")]
         public string Otp { get; set; }
     }
