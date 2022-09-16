@@ -100,7 +100,11 @@ namespace SER.EpaycoSdk.NewApi.Models
         [JsonPropertyName("methodConfimation")]
         public string MethodConfimation { get; set; }
 
-
+        /// <summary>
+        /// GET or POST
+        /// </summary>
+        [JsonPropertyName("methodConfirmation")]
+        public string MethodConfirmation { get => MethodConfimation; }
 
         [JsonPropertyName("extra1")]
         public string Extra1 { get; set; }
