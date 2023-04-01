@@ -15,6 +15,9 @@ namespace SER.EpaycoSdk.NewApi.Models.Response
         [JsonPropertyName("errors")]
         public object Errores { get; set; }
 
+        [JsonPropertyName("error")]
+        public object Error { get; set; }
+
 
         [JsonPropertyName("ref_payco")]
         public string RefPayco { get; set; }
